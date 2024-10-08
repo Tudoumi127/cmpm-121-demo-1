@@ -14,11 +14,10 @@ const division = document.createElement("div");
 button.textContent = "🗿";
 
 button.addEventListener("click", () => {
-    //console.log('aaaaaaaaa');
-    moais++;
-    division.textContent = `${moais} moyais`;
+  //console.log('aaaaaaaaa');
+  moais++;
+  division.textContent = `${moais} moyais`;
 });
-
 
 header.innerHTML = gameName;
 
