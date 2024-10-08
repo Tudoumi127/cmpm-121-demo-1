@@ -23,19 +23,19 @@ setInterval(() => {
 */
 
 function update(timestamp: number) {
-    // Calculate the time difference since the last recorded time
-    const elapsed = timestamp - previousTime;
+  // Calculate the time difference since the last recorded time
+  const elapsed = timestamp - previousTime;
 
-    if (elapsed >= 1000) {
-        moais++;
-        division.textContent = `${moais} moais`;
-        
-        // Reset the previousTime to the current timestamp
-        previousTime = timestamp;
-    }
+  if (elapsed >= 1000) {
+    moais++;
+    division.textContent = `${moais} moais`;
 
-    // Continue the animation loop
-    requestAnimationFrame(update);
+    // Reset the previousTime to the current timestamp
+    previousTime = timestamp;
+  }
+
+  // Continue the animation loop
+  requestAnimationFrame(update);
 }
 
 button.addEventListener("click", () => {
