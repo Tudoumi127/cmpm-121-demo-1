@@ -13,11 +13,18 @@ const division = document.createElement("div");
 
 button.textContent = "🗿";
 
+setInterval(() => {
+    moais++;
+    //console.log(`Counter is now: ${moais}`);
+    division.textContent = `${moais} moais`;
+}, 1000);
+
 button.addEventListener("click", () => {
   //console.log('aaaaaaaaa');
   moais++;
-  division.textContent = `${moais} moyais`;
+  division.textContent = `${moais} moais`;
 });
+
 
 header.innerHTML = gameName;
 
