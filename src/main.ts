@@ -27,14 +27,14 @@ setInterval(() => {
 */
 
 function updateButton() {
-    purchase.disabled = moais < 10;
+  purchase.disabled = moais < 10;
 }
 
 function update(timestamp: number) {
   // Calculate the time difference since the last recorded time
   const elapsed = timestamp - previousTime;
 
-  if (elapsed >= (1000/moaiUpgrades)) {
+  if (elapsed >= 1000 / moaiUpgrades) {
     moais++;
     division.textContent = `${moais} moais`;
     updateButton();
@@ -54,16 +54,16 @@ button.addEventListener("click", () => {
   updateButton();
 });
 
-purchase.addEventListener("click",() => {
-    moais -= 10;
-    updateButton();
-    moaiUpgrades++;
-    if(moaiUpgrades >= 1){
-        requestAnimationFrame(update);
-    }
-    division.textContent = `${moais} moais`;
-    upgrades.textContent = `${moaiUpgrades} moai upgrade(s)`;
-})
+purchase.addEventListener("click", () => {
+  moais -= 10;
+  updateButton();
+  moaiUpgrades++;
+  if (moaiUpgrades >= 1) {
+    requestAnimationFrame(update);
+  }
+  division.textContent = `${moais} moais`;
+  upgrades.textContent = `${moaiUpgrades} moai upgrade(s)`;
+});
 
 header.innerHTML = gameName;
 
@@ -73,5 +73,3 @@ app.append(button);
 app.append(purchase);
 app.append(division);
 app.append(upgrades);
-
-
