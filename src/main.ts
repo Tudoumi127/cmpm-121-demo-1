@@ -35,7 +35,8 @@ function update(timestamp: number) {
   const elapsed = timestamp - previousTime;
 
   const incrementRate = 0.1;
-  const fractionalIncrement = (elapsed / (1000 / (moaiUpgrades * 5))) * incrementRate;
+  const fractionalIncrement =
+    (elapsed / (1000 / (moaiUpgrades * 5))) * incrementRate;
 
   moais += fractionalIncrement;
   division.textContent = `${moais.toFixed(0)} moais`;
