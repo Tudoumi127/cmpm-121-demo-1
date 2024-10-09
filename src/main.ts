@@ -34,14 +34,23 @@ function update(timestamp: number) {
   // Calculate the time difference since the last recorded time
   const elapsed = timestamp - previousTime;
 
-  if (elapsed >= 1000 / moaiUpgrades) {
+  const incrementRate = 0.1;
+  const fractionalIncrement = (elapsed / (1000 / (moaiUpgrades * 5))) * incrementRate;
+
+  moais += fractionalIncrement;
+  division.textContent = `${moais.toFixed(0)} moais`;
+
+  updateButton();
+
+  previousTime = timestamp;
+  /*if (elapsed >= 1000 / moaiUpgrades) {
     moais++;
     division.textContent = `${moais} moais`;
     updateButton();
 
     // Reset the previousTime to the current timestamp
     previousTime = timestamp;
-  }
+  }*/
 
   // Continue the animation loop
   requestAnimationFrame(update);
