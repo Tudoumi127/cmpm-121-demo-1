@@ -45,13 +45,13 @@ automoaiClick.innerHTML = "Start appraising (0.1/s) <br>--10 moais--";
 
 //upgrades
 const rockPolishing = document.createElement("button");
-makeUpgrade('Rock Polishing', rockPolishing, 10, 0.1);
+makeUpgrade("Rock Polishing", rockPolishing, 10, 0.1);
 
 const mineralEnhancement = document.createElement("button");
-makeUpgrade('Mineral Enhancement', mineralEnhancement, 100, 2);
+makeUpgrade("Mineral Enhancement", mineralEnhancement, 100, 2);
 
 const clearCoat = document.createElement("button");
-makeUpgrade("Clear Coat" ,clearCoat, 1000, 50);
+makeUpgrade("Clear Coat", clearCoat, 1000, 50);
 
 const showLevel = document.createElement("div");
 showLevels();
@@ -67,15 +67,14 @@ app.appendChild(showCounter);
 
 position();
 
-
 //functions--------------------------------------------------
 
-function addCounter(x: number){
+function addCounter(x: number) {
   counter += x;
   showCounter.textContent = counter.toFixed(2) + " moais";
 
   for (const upgrade of upgradeButtons) {
-    if (counter >= upgrade.cost){
+    if (counter >= upgrade.cost) {
       enableButton(upgrade.button);
     }
   }
@@ -84,24 +83,26 @@ function addCounter(x: number){
 let previousFrame = 0;
 let elapsedTime = 0;
 
-function intervalCounter(timestamp: DOMHighResTimeStamp){
-  if (previousFrame == 0){
+function intervalCounter(timestamp: DOMHighResTimeStamp) {
+  if (previousFrame == 0) {
     previousFrame = timestamp;
   }
 
   elapsedTime = timestamp - previousFrame;
   previousFrame = timestamp;
 
-  if(elapsedTime > 0){
+  if (elapsedTime > 0) {
     const fps = 1000 / elapsedTime;
     addCounter(autoAdd / fps);
   }
   requestAnimationFrame(intervalCounter);
 }
 
-setInterval(() => {console.log("second");}, 1000);
+setInterval(() => {
+  console.log("second");
+}, 1000);
 
-function position(){
+function position() {
   rockPolishing.style.left = `${width / 2 - mineralEnhancement.offsetWidth / 2 - rockPolishing.offsetWidth}px`;
   mineralEnhancement.style.left = `${width / 2 - mineralEnhancement.offsetWidth / 2}px`;
   clearCoat.style.left = `${width / 2 + mineralEnhancement.offsetWidth / 2}px`;
@@ -117,30 +118,29 @@ function position(){
   showLevel.style.left = `${width / 2 - showLevel.offsetWidth / 2}px`;
 }
 
-
 window.addEventListener("resize", () => {
   width = document.documentElement.clientWidth;
   position();
-})
+});
 
-function enableButton(button: HTMLButtonElement){
+function enableButton(button: HTMLButtonElement) {
   button.style.backgroundColor = "#7f7f7f";
   button.style.color = "#ffffff";
   button.style.cursor = "pointer";
 }
 
-function disableButton(button: HTMLButtonElement){
+function disableButton(button: HTMLButtonElement) {
   button.style.backgroundColor = "#d8d8d8";
   button.style.color = "#c2c2c2";
   button.style.cursor = "not-allowed";
 }
 
-function findUpgrade(button: HTMLButtonElement){
+function findUpgrade(button: HTMLButtonElement) {
   return upgradeButtons.find((upgrade) => upgrade.button === button);
 }
 
-function purchaseUpgrade(upgrade: Items){
-  if(counter < upgrade.cost){
+function purchaseUpgrade(upgrade: Items) {
+  if (counter < upgrade.cost) {
     return;
   }
 
@@ -150,7 +150,7 @@ function purchaseUpgrade(upgrade: Items){
   autoAdd += upgrade.auto;
   curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
 
-  if(!isRunning){
+  if (!isRunning) {
     isRunning = true;
     requestAnimationFrame(intervalCounter);
   }
@@ -159,27 +159,38 @@ function purchaseUpgrade(upgrade: Items){
   console.log(`Level upgraded to: ${upgrade.level}`);
   upgrade.button.innerHTML = `${upgrade.name} (${upgrade.auto}/s) <br>Costs ${upgrade.cost} moais`;
 
-  if(counter < upgrade.cost){
+  if (counter < upgrade.cost) {
     disableButton(upgrade.button);
   }
 }
 
-function showLevels(){
-  for(const upgrade of upgradeButtons){
+function showLevels() {
+  for (const upgrade of upgradeButtons) {
     showLevel.textContent += `- ${upgrade.level} ${upgrade.name} - `;
   }
 }
 
-function makeUpgrade(name: string, button: HTMLButtonElement, cost: number, auto: number){
+function makeUpgrade(
+  name: string,
+  button: HTMLButtonElement,
+  cost: number,
+  auto: number,
+) {
   button.innerHTML = `${name} (${auto}/s) <br>Costs ${cost} moais`;
 
-  upgradeButtons.push({name: name, button: button, cost: cost, level: 0, auto: auto});
+  upgradeButtons.push({
+    name: name,
+    button: button,
+    cost: cost,
+    level: 0,
+    auto: auto,
+  });
   const upgrade = findUpgrade(button);
-  if(upgrade){
+  if (upgrade) {
     button.addEventListener("click", () => purchaseUpgrade(upgrade));
   }
 
   app.appendChild(button);
-  button.style.position = 'absolute';
+  button.style.position = "absolute";
   disableButton(button);
 }
