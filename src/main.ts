@@ -36,7 +36,6 @@ let isRunning = false;
 
 const curAuto = document.createElement("div");
 curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
-//curAuto.style.fontWeight = 'bold';
 app.append(curAuto);
 
 //auto counting
