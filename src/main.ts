@@ -4,7 +4,7 @@ const app: HTMLDivElement = document.querySelector("#app")!;
 
 let width = document.documentElement.clientWidth;
 
-const gameName = "I am so Confused rn You Dont Even Know";
+const gameName = "Mm Rocks";
 document.title = gameName;
 
 const header = document.createElement("h1");
