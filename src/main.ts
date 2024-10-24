@@ -155,9 +155,9 @@ function purchaseUpgrade(upgrade: Items) {
     requestAnimationFrame(intervalCounter);
   }
 
-  upgrade.cost *= upgrade.level + 1;
-  console.log(`Level upgraded to: ${upgrade.level}`);
-  upgrade.button.innerHTML = `${upgrade.name} (${upgrade.auto}/s) <br>Costs ${upgrade.cost} moais`;
+  upgrade.cost *= upgrade.level * 1.15;
+  //console.log(`Level upgraded to: ${upgrade.level}`);
+  upgrade.button.innerHTML = `${upgrade.name} (${upgrade.auto.toFixed(2)}/s) <br>Costs ${upgrade.cost} moais`;
 
   if (counter < upgrade.cost) {
     disableButton(upgrade.button);
