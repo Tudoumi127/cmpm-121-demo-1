@@ -55,12 +55,11 @@ makeUpgrade("Clear Coat", clearCoat, 1000, 50);
 
 const showLevel = document.createElement("div");
 showLevels();
-
 showLevel.style.position = "absolute";
 app.appendChild(showLevel);
 position();
 
-//show level
+//show counter
 const showCounter = document.createElement("div");
 showCounter.textContent = counter.toFixed(2) + " moais";
 app.appendChild(showCounter);
@@ -157,10 +156,12 @@ function purchaseUpgrade(upgrade: Items) {
 
   upgrade.cost *= upgrade.level * 1.15;
   //console.log(`Level upgraded to: ${upgrade.level}`);
-  upgrade.button.innerHTML = `${upgrade.name} (${upgrade.auto.toFixed(2)}/s) <br>Costs ${upgrade.cost} moais`;
+  upgrade.button.innerHTML = `${upgrade.name} (${upgrade.auto.toFixed(2)}/s) <br>Costs ${upgrade.cost.toFixed(2)} moais`;
 
   if (counter < upgrade.cost) {
     disableButton(upgrade.button);
+    showLevels();
+    position();
   }
 }
 
