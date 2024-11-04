@@ -36,7 +36,7 @@ position: absolute;
   font-size: 30px; 
   display: flex;        
   justify-content: center;   
-`
+`;
 
 app.appendChild(moaiClick);
 
@@ -46,9 +46,7 @@ showCounter.textContent = counter.toFixed(2) + " moais";
 showCounter.style.fontSize = "25px";
 app.appendChild(showCounter);
 
-
 //thank you to Katrina for help with formatting
-
 
 //upgrades
 //step 9 thing for refactoring
@@ -69,16 +67,16 @@ let purchaseCost = 5;
 let rate = 0.5;
 const increase = 1.5;
 
-function makeUpgrade(name: string){
+function makeUpgrade(name: string) {
   const button = document.createElement("button");
   button.innerHTML = `${name} (${rate}/s) <br>${purchaseCost} moais`;
-  
+
   const upgrade = {
     name: name,
     button: button,
     cost: purchaseCost,
     level: 0,
-    auto: rate
+    auto: rate,
   };
 
   upgradeButtons.push(upgrade);
@@ -97,12 +95,10 @@ makeUpgrade("Clear Coat");
 makeUpgrade("Bejewel");
 makeUpgrade("Make into Jewelry");
 
-
 //show upgrade levels
 const showLevel = document.createElement("div");
 showLevels();
 app.appendChild(showLevel);
-
 
 //functions--------------------------------------------------
 
@@ -121,8 +117,7 @@ function addCounter(x: number) {
   for (const upgrade of upgradeButtons) {
     if (counter >= upgrade.cost) {
       enableButton(upgrade.button);
-    }
-    else{
+    } else {
       disableButton(upgrade.button);
     }
   }
@@ -146,7 +141,6 @@ function intervalCounter(timestamp: DOMHighResTimeStamp) {
   requestAnimationFrame(intervalCounter);
 }
 
-
 function enableButton(button: HTMLButtonElement) {
   button.style.backgroundColor = "#7f7f7f";
   button.style.color = "#ffffff";
@@ -159,13 +153,13 @@ function disableButton(button: HTMLButtonElement) {
   button.style.cursor = "not-allowed";
 }
 
-function levelUpgrade(upgrade: Items){
+function levelUpgrade(upgrade: Items) {
   upgrade.level++;
   upgrade.cost += upgrade.cost * increase;
 
   upgrade.button.innerHTML = `${upgrade.name} (${upgrade.auto}/s) <br>--${upgrade.cost.toFixed(2)} moais--`;
 
-  if(counter < upgrade.cost){
+  if (counter < upgrade.cost) {
     disableButton(upgrade.button);
   }
 
