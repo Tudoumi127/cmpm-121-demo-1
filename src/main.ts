@@ -25,14 +25,13 @@ app.append(autoGenRate);
 //upgrade
 
 interface UpgradeData {
-  name: string;             // Name of the upgrade
-  cost: number;             // Starting cost for the upgrade
-  rate: number;             // Automatic generation rate
-  multiplier: number;       // Cost multiplier for each level-up
+  name: string; // Name of the upgrade
+  cost: number; // Starting cost for the upgrade
+  rate: number; // Automatic generation rate
+  multiplier: number; // Cost multiplier for each level-up
   button: HTMLButtonElement; // DOM element for this upgrade's button
   level: number;
 }
-
 
 const upgradeButtons: UpgradeData[] = [];
 
@@ -100,16 +99,16 @@ function purchaseUpgrade(upgrade: UpgradeData) {
   }
 }
 
-function makeUpgrade(data: Omit<UpgradeData, 'button' | 'level'>): void {
+function makeUpgrade(data: Omit<UpgradeData, "button" | "level">): void {
   // Create the button dynamically
   const button = document.createElement("button");
   button.innerHTML = `${data.name} (${data.rate}/s) <br>${data.cost.toFixed(2)} moais`;
 
   // Construct the full Upgrade object
   const upgrade: UpgradeData = {
-      ...data,      // Use all fields from the input data
-      button: button, // Add the dynamically created button
-      level: 0,     // Initialize the level to 0
+    ...data, // Use all fields from the input data
+    button: button, // Add the dynamically created button
+    level: 0, // Initialize the level to 0
   };
 
   upgradeButtons.push(upgrade);
@@ -118,7 +117,7 @@ function makeUpgrade(data: Omit<UpgradeData, 'button' | 'level'>): void {
   disableButton(button);
 }
 
-const upgradeData: Omit<UpgradeData, 'button' | 'level'>[] = [
+const upgradeData: Omit<UpgradeData, "button" | "level">[] = [
   { name: "Polish", cost: 5, rate: 0.5, multiplier: 1.5 },
   { name: "Mineral Enhance", cost: 15, rate: 1.5, multiplier: 1.7 },
   { name: "Clear Coat", cost: 30, rate: 3.0, multiplier: 1.9 },
@@ -138,7 +137,7 @@ function intervalCounter(timestamp: DOMHighResTimeStamp): void {
   }
 
   // Calculate elapsed time since the last frame in seconds
-  elapsedTime = (timestamp - previousFrame); // Convert ms to seconds
+  elapsedTime = timestamp - previousFrame; // Convert ms to seconds
   previousFrame = timestamp;
 
   if (elapsedTime > 0) {
