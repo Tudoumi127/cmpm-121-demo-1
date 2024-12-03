@@ -105,7 +105,7 @@ app.appendChild(showLevel);
 //functions--------------------------------------------------
 
 function showLevels() {
-  showLevel.textContent = '';
+  showLevel.textContent = "";
   for (const upgrade of upgradeButtons) {
     showLevel.textContent += ` ${upgrade.level} ${upgrade.name} `;
   }
@@ -176,7 +176,7 @@ function purchaseUpgrade(upgrade: Items) {
   //upgrade.level++;
   autoAdd += upgrade.auto;
   curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
-  
+
   levelUpgrade(upgrade);
 
   if (!isRunning) {
