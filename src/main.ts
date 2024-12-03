@@ -15,10 +15,29 @@ header.classList.add("bounceTitle");
 
 let autoAdd = 0;
 let isRunning = false;
+let purchaseCost = 5;
+let rate = 0.5;
+const increase = 1.5;
 
 const curAuto = document.createElement("div");
 curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
 app.append(curAuto);
+
+//thank you to Katrina for help with formatting
+
+//upgrades
+interface Items {
+  name: string;
+
+  button: HTMLButtonElement;
+
+  cost: number;
+  level: number;
+
+  auto: number;
+}
+
+const upgradeButtons: Items[] = [];
 
 //button for the actual click thing
 const moaiClick = document.createElement("button");
@@ -49,25 +68,40 @@ showCounter.textContent = counter.toFixed(2) + " moais";
 showCounter.style.fontSize = "25px";
 app.appendChild(showCounter);
 
-//thank you to Katrina for help with formatting
+//show upgrade levels
+const showLevel = document.createElement("div");
+showLevels();
+app.appendChild(showLevel);
 
-//upgrades
-interface Items {
-  name: string;
+function addCounter(x: number) {
+  counter += x;
+  showCounter.textContent = counter.toFixed(2) + " moais";
 
-  button: HTMLButtonElement;
-
-  cost: number;
-  level: number;
-
-  auto: number;
+  for (const upgrade of upgradeButtons) {
+    if (counter >= upgrade.cost) {
+      enableButton(upgrade.button);
+    } else {
+      disableButton(upgrade.button);
+    }
+  }
 }
 
-const upgradeButtons: Items[] = [];
+function purchaseUpgrade(upgrade: Items) {
+  if (counter < upgrade.cost) {
+    return;
+  }
 
-let purchaseCost = 5;
-let rate = 0.5;
-const increase = 1.5;
+  addCounter(-upgrade.cost);
+  autoAdd += upgrade.auto;
+  curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
+
+  levelUpgrade(upgrade);
+
+  if (!isRunning) {
+    isRunning = true;
+    requestAnimationFrame(intervalCounter);
+  }
+}
 
 function makeUpgrade(name: string) {
   const button = document.createElement("button");
@@ -97,33 +131,6 @@ makeUpgrade("Clear Coat");
 makeUpgrade("Bejewel");
 makeUpgrade("Make into Jewelry");
 
-//show upgrade levels
-const showLevel = document.createElement("div");
-showLevels();
-app.appendChild(showLevel);
-
-//functions--------------------------------------------------
-
-function showLevels() {
-  showLevel.textContent = "";
-  for (const upgrade of upgradeButtons) {
-    showLevel.textContent += ` ${upgrade.level} ${upgrade.name} `;
-  }
-}
-
-function addCounter(x: number) {
-  counter += x;
-  showCounter.textContent = counter.toFixed(2) + " moais";
-
-  for (const upgrade of upgradeButtons) {
-    if (counter >= upgrade.cost) {
-      enableButton(upgrade.button);
-    } else {
-      disableButton(upgrade.button);
-    }
-  }
-}
-
 let previousFrame = 0;
 let elapsedTime = 0;
 
@@ -142,20 +149,16 @@ function intervalCounter(timestamp: DOMHighResTimeStamp) {
   requestAnimationFrame(intervalCounter);
 }
 
-function enableButton(button: HTMLButtonElement) {
-  button.style.backgroundColor = "#7f7f7f";
-  button.style.color = "#ffffff";
-  button.style.cursor = "pointer";
-}
-
-function disableButton(button: HTMLButtonElement) {
-  button.style.backgroundColor = "#d8d8d8";
-  button.style.color = "#c2c2c2";
-  button.style.cursor = "not-allowed";
+function showLevels() {
+  showLevel.textContent = "";
+  for (const upgrade of upgradeButtons) {
+    showLevel.textContent += ` ${upgrade.level} ${upgrade.name} `;
+  }
 }
 
 function levelUpgrade(upgrade: Items) {
   upgrade.level++;
+  //fixed logic for step 8 commit
   upgrade.cost += upgrade.cost * increase;
 
   upgrade.button.innerHTML = `${upgrade.name} (${upgrade.auto}/s) <br>--${upgrade.cost.toFixed(2)} moais--`;
@@ -167,20 +170,14 @@ function levelUpgrade(upgrade: Items) {
   showLevels();
 }
 
-function purchaseUpgrade(upgrade: Items) {
-  if (counter < upgrade.cost) {
-    return;
-  }
+function enableButton(button: HTMLButtonElement) {
+  button.style.backgroundColor = "#7f7f7f";
+  button.style.color = "#ffffff";
+  button.style.cursor = "pointer";
+}
 
-  addCounter(-upgrade.cost);
-  //upgrade.level++;
-  autoAdd += upgrade.auto;
-  curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
-
-  levelUpgrade(upgrade);
-
-  if (!isRunning) {
-    isRunning = true;
-    requestAnimationFrame(intervalCounter);
-  }
+function disableButton(button: HTMLButtonElement) {
+  button.style.backgroundColor = "#d8d8d8";
+  button.style.color = "#c2c2c2";
+  button.style.cursor = "not-allowed";
 }
