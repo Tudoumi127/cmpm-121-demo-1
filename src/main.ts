@@ -52,7 +52,6 @@ app.appendChild(showCounter);
 //thank you to Katrina for help with formatting
 
 //upgrades
-//step 9 thing for refactoring
 interface Items {
   name: string;
 
@@ -106,11 +105,10 @@ app.appendChild(showLevel);
 //functions--------------------------------------------------
 
 function showLevels() {
-  //showLevel.textContent = "-";
+  showLevel.textContent = '';
   for (const upgrade of upgradeButtons) {
     showLevel.textContent += ` ${upgrade.level} ${upgrade.name} `;
   }
-  //showLevel.textContent = "-";
 }
 
 function addCounter(x: number) {
@@ -175,10 +173,10 @@ function purchaseUpgrade(upgrade: Items) {
   }
 
   addCounter(-upgrade.cost);
-  upgrade.level++;
-
+  //upgrade.level++;
   autoAdd += upgrade.auto;
   curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
+  
   levelUpgrade(upgrade);
 
   if (!isRunning) {
