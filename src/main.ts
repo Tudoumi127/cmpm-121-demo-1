@@ -186,4 +186,3 @@ function purchaseUpgrade(upgrade: Items) {
     requestAnimationFrame(intervalCounter);
   }
 }
-
