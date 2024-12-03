@@ -13,15 +13,15 @@ app.append(header);
 //animate title
 header.classList.add("bounceTitle");
 
-let autoAdd = 0;
+let autoAddMoai = 0;
 let isRunning = false;
 let purchaseCost = 5;
 let rate = 0.5;
 const increase = 1.5;
 
-const curAuto = document.createElement("div");
-curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
-app.append(curAuto);
+const autoGenRate = document.createElement("div");
+autoGenRate.innerHTML = `${autoAddMoai.toFixed(2)} moais/sec`;
+app.append(autoGenRate);
 
 //thank you to Katrina for help with formatting
 
@@ -69,9 +69,9 @@ showCounter.style.fontSize = "25px";
 app.appendChild(showCounter);
 
 //show upgrade levels
-const showLevel = document.createElement("div");
-showLevels();
-app.appendChild(showLevel);
+const showUpgradeLevel = document.createElement("div");
+showUpgradeLevels();
+app.appendChild(showUpgradeLevel);
 
 function addCounter(x: number) {
   counter += x;
@@ -92,8 +92,10 @@ function purchaseUpgrade(upgrade: Items) {
   }
 
   addCounter(-upgrade.cost);
-  autoAdd += upgrade.auto;
-  curAuto.innerHTML = `${autoAdd.toFixed(2)} moais/sec`;
+  autoAddMoai
+ += upgrade.auto;
+  autoGenRate.innerHTML = `${autoAddMoai
+  .toFixed(2)} moais/sec`;
 
   levelUpgrade(upgrade);
 
@@ -144,15 +146,16 @@ function intervalCounter(timestamp: DOMHighResTimeStamp) {
 
   if (elapsedTime > 0) {
     const fps = 1000 / elapsedTime;
-    addCounter(autoAdd / fps);
+    addCounter(autoAddMoai
+     / fps);
   }
   requestAnimationFrame(intervalCounter);
 }
 
-function showLevels() {
-  showLevel.textContent = "";
+function showUpgradeLevels() {
+  showUpgradeLevel.textContent = "";
   for (const upgrade of upgradeButtons) {
-    showLevel.textContent += ` ${upgrade.level} ${upgrade.name} `;
+    showUpgradeLevel.textContent += ` ${upgrade.level} ${upgrade.name} `;
   }
 }
 
@@ -167,7 +170,7 @@ function levelUpgrade(upgrade: Items) {
     disableButton(upgrade.button);
   }
 
-  showLevels();
+  showUpgradeLevels();
 }
 
 function enableButton(button: HTMLButtonElement) {
