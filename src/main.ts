@@ -15,9 +15,6 @@ header.classList.add("bounceTitle");
 
 let autoAddMoai = 0;
 let isRunning = false;
-let purchaseCost = 5;
-let rate = 0.5;
-const increase = 1.5;
 
 const autoGenRate = document.createElement("div");
 autoGenRate.innerHTML = `${autoAddMoai.toFixed(2)} moais/sec`;
@@ -25,19 +22,19 @@ app.append(autoGenRate);
 
 //thank you to Katrina for help with formatting
 
-//upgrades
-interface Items {
-  name: string;
+//upgrade
 
-  button: HTMLButtonElement;
-
-  cost: number;
+interface UpgradeData {
+  name: string;             // Name of the upgrade
+  cost: number;             // Starting cost for the upgrade
+  rate: number;             // Automatic generation rate
+  multiplier: number;       // Cost multiplier for each level-up
+  button: HTMLButtonElement; // DOM element for this upgrade's button
   level: number;
-
-  auto: number;
 }
 
-const upgradeButtons: Items[] = [];
+
+const upgradeButtons: UpgradeData[] = [];
 
 //button for the actual click thing
 const moaiClick = document.createElement("button");
@@ -86,13 +83,13 @@ function addCounter(x: number) {
   }
 }
 
-function purchaseUpgrade(upgrade: Items) {
+function purchaseUpgrade(upgrade: UpgradeData) {
   if (counter < upgrade.cost) {
     return;
   }
 
   addCounter(-upgrade.cost);
-  autoAddMoai += upgrade.auto;
+  autoAddMoai += upgrade.rate;
   autoGenRate.innerHTML = `${autoAddMoai.toFixed(2)} moais/sec`;
 
   levelUpgrade(upgrade);
@@ -103,49 +100,53 @@ function purchaseUpgrade(upgrade: Items) {
   }
 }
 
-function makeUpgrade(name: string) {
+function makeUpgrade(data: Omit<UpgradeData, 'button' | 'level'>): void {
+  // Create the button dynamically
   const button = document.createElement("button");
-  button.innerHTML = `${name} (${rate}/s) <br>${purchaseCost} moais`;
+  button.innerHTML = `${data.name} (${data.rate}/s) <br>${data.cost.toFixed(2)} moais`;
 
-  const upgrade = {
-    name: name,
-    button: button,
-    cost: purchaseCost,
-    level: 0,
-    auto: rate,
+  // Construct the full Upgrade object
+  const upgrade: UpgradeData = {
+      ...data,      // Use all fields from the input data
+      button: button, // Add the dynamically created button
+      level: 0,     // Initialize the level to 0
   };
 
   upgradeButtons.push(upgrade);
   button.addEventListener("click", () => purchaseUpgrade(upgrade));
-
-  purchaseCost = purchaseCost * 2;
-  rate = rate * 3;
   app.appendChild(button);
   disableButton(button);
 }
 
-//make upgrade buttons
-makeUpgrade("Polish");
-makeUpgrade("Mineral Enhance");
-makeUpgrade("Clear Coat");
-makeUpgrade("Bejewel");
-makeUpgrade("Make into Jewelry");
+const upgradeData: Omit<UpgradeData, 'button' | 'level'>[] = [
+  { name: "Polish", cost: 5, rate: 0.5, multiplier: 1.5 },
+  { name: "Mineral Enhance", cost: 15, rate: 1.5, multiplier: 1.7 },
+  { name: "Clear Coat", cost: 30, rate: 3.0, multiplier: 1.9 },
+  { name: "Bejewel", cost: 50, rate: 4.5, multiplier: 2.1 },
+  { name: "Make into Jewelry", cost: 100, rate: 6.0, multiplier: 2.5 },
+];
+
+// Dynamically create upgrades
+upgradeData.forEach(makeUpgrade);
 
 let previousFrame = 0;
 let elapsedTime = 0;
 
-function intervalCounter(timestamp: DOMHighResTimeStamp) {
+function intervalCounter(timestamp: DOMHighResTimeStamp): void {
   if (previousFrame == 0) {
     previousFrame = timestamp;
   }
 
-  elapsedTime = timestamp - previousFrame;
+  // Calculate elapsed time since the last frame in seconds
+  elapsedTime = (timestamp - previousFrame); // Convert ms to seconds
   previousFrame = timestamp;
 
   if (elapsedTime > 0) {
     const fps = 1000 / elapsedTime;
     addCounter(autoAddMoai / fps);
   }
+
+  // Schedule the next animation frame
   requestAnimationFrame(intervalCounter);
 }
 
@@ -156,12 +157,12 @@ function showUpgradeLevels() {
   }
 }
 
-function levelUpgrade(upgrade: Items) {
+function levelUpgrade(upgrade: UpgradeData) {
   upgrade.level++;
   //fixed logic for step 8 commit
-  upgrade.cost += upgrade.cost * increase;
+  upgrade.cost = upgrade.cost * upgrade.multiplier;
 
-  upgrade.button.innerHTML = `${upgrade.name} (${upgrade.auto}/s) <br>--${upgrade.cost.toFixed(2)} moais--`;
+  upgrade.button.innerHTML = `${upgrade.name} (${upgrade.rate}/s) <br>--${upgrade.cost.toFixed(2)} moais--`;
 
   if (counter < upgrade.cost) {
     disableButton(upgrade.button);
