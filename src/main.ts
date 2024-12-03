@@ -10,6 +10,9 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
+//animate title
+header.classList.add("bounceTitle");
+
 let autoAdd = 0;
 let isRunning = false;
 
@@ -26,13 +29,13 @@ moaiClick.addEventListener("click", () => addCounter(1));
 //style change referenced from lorclau's code https://github.com/lorclau/cmpm-121-demo-1/blob/main/src/main.ts
 moaiClick.style.cssText = `
 position: absolute;
-  top: 25%; 
+  top: 22%; 
   left: 50%;
   background: #ffff;
   transform: translate(-50%, -50%) scale(1.5);
-  width: 70px; 
-  height: 70px;
-  border-radius: 25px; 
+  width: 90px; 
+  height: 80px;
+  border-radius: 20px; 
   font-size: 30px; 
   display: flex;        
   justify-content: center;   
@@ -183,3 +186,4 @@ function purchaseUpgrade(upgrade: Items) {
     requestAnimationFrame(intervalCounter);
   }
 }
+
