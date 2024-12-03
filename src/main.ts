@@ -92,10 +92,8 @@ function purchaseUpgrade(upgrade: Items) {
   }
 
   addCounter(-upgrade.cost);
-  autoAddMoai
- += upgrade.auto;
-  autoGenRate.innerHTML = `${autoAddMoai
-  .toFixed(2)} moais/sec`;
+  autoAddMoai += upgrade.auto;
+  autoGenRate.innerHTML = `${autoAddMoai.toFixed(2)} moais/sec`;
 
   levelUpgrade(upgrade);
 
@@ -146,8 +144,7 @@ function intervalCounter(timestamp: DOMHighResTimeStamp) {
 
   if (elapsedTime > 0) {
     const fps = 1000 / elapsedTime;
-    addCounter(autoAddMoai
-     / fps);
+    addCounter(autoAddMoai / fps);
   }
   requestAnimationFrame(intervalCounter);
 }
