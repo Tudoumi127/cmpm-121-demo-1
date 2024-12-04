@@ -16,9 +16,9 @@ header.classList.add("bounceTitle");
 let autoAddMoai = 0;
 let isRunning = false;
 
-const autoGenRate = document.createElement("div");
-autoGenRate.innerHTML = `${autoAddMoai.toFixed(2)} moais/sec`;
-app.append(autoGenRate);
+const autoGenDisplay = document.createElement("div");
+autoGenDisplay.innerHTML = `${autoAddMoai.toFixed(2)} moais/sec`;
+app.append(autoGenDisplay);
 
 //thank you to Katrina for help with formatting
 
@@ -89,7 +89,7 @@ function purchaseUpgrade(upgrade: UpgradeData) {
 
   addCounter(-upgrade.cost);
   autoAddMoai += upgrade.rate;
-  autoGenRate.innerHTML = `${autoAddMoai.toFixed(2)} moais/sec`;
+  autoGenDisplay.innerHTML = `${autoAddMoai.toFixed(2)} moais/sec`;
 
   levelUpgrade(upgrade);
 
